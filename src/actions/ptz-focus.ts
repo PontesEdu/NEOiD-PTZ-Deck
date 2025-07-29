@@ -1,33 +1,31 @@
 import { action, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
 
-export type PtzSettings = {
+export type PtzFocus = {
   speed?: number;
-  tilt?: number;
-  direction: "up" | "down" | "left" | "right";
+  direction: "focusout" | "focusin";
 };
 
 const apiBase = "http://192.168.100.88/cgi-bin/ptzctrl.cgi?ptzcmd";
 
-async function move(settings: PtzSettings) {
+async function move(settings: any) {
   const speed = settings.speed ?? 5;
-  const tilt = settings.tilt ?? 5;
   const direction = settings.direction ?? '';
-  const url = `${apiBase}&${direction}&${speed}&${tilt}`;
+  const url = `${apiBase}&${direction}&${speed}`;
   console.log(`Move: ${url}`);
   await fetch(url);
 }
 
 async function stop() {
-  const url = `${apiBase}&ptzstop&0&0`;
+  const url = `${apiBase}&focusstop&0`;
   console.log(`Stop: ${url}`);
   await fetch(url);
 }
 
 // Ações
-@action({ UUID: "ptz.control" })
-export class PTZControl extends SingletonAction<PtzSettings> {
+@action({ UUID: "ptz.focus" })
+export class PTZFocus extends SingletonAction<PtzFocus> {
 
-  override async onKeyDown(ev: KeyDownEvent<PtzSettings>): Promise<void> {
+  override async onKeyDown(ev: KeyDownEvent<PtzFocus>): Promise<void> {
     await move(ev.payload.settings);
   }
 
