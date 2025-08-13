@@ -1,4 +1,4 @@
-import streamDeck, { action, KeyDownEvent, SingletonAction, type DidReceiveSettingsEvent } from "@elgato/streamdeck";
+import streamDeck, { action, KeyDownEvent, SingletonAction, WillAppearEvent, type DidReceiveSettingsEvent } from "@elgato/streamdeck";
 
 async function checkCameraConnection(cameraIP: any) {
     // try each route to see if camera is accessible. A good response from either is success
@@ -11,8 +11,20 @@ async function checkCameraConnection(cameraIP: any) {
   }
 } 
 
-@action({ UUID: "ptz.register" })
+@action({ UUID: "com.neoid.ptzneoid.ptz-register" })
 export class PTZRegister extends SingletonAction<any> {
+
+  override async onWillAppear(ev: WillAppearEvent) {
+    const settings = ev.payload.settings;
+    const cameraIP = settings.cameraIP
+    const checkCamera = await checkCameraConnection(cameraIP)
+
+    if(!checkCamera) {
+      await ev.action.setTitle('Not Connect') 
+    } else {
+      await ev.action.setTitle('') 
+    }
+  }
 
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent){
     const settings = ev.payload.settings;
@@ -20,19 +32,27 @@ export class PTZRegister extends SingletonAction<any> {
     const checkCamera = await checkCameraConnection(cameraIP)
 
     if(!checkCamera) {
-      await ev.action.setTitle('Not Connect')
+      await ev.action.setTitle('Not Connect') 
+    } else {
+      await ev.action.setTitle('') 
     }
-
-    await streamDeck.settings.setGlobalSettings(settings);
   }
 
   override async onKeyDown(ev: KeyDownEvent): Promise<void> {
     const settings = ev.payload.settings
+    const globals = await streamDeck.settings.getGlobalSettings();
     const checkCamera = await checkCameraConnection(settings.cameraIP)
+
     if(!checkCamera) {
       ev.action.setTitle('Not Connect')
+    } else {
+      await ev.action.setTitle('') 
     }
-    await streamDeck.settings.setGlobalSettings(settings);
+    
+    await streamDeck.settings.setGlobalSettings({
+      ...globals,
+      cameraIP: settings.cameraIP,
+    });;
   }
 
 }
