@@ -13,7 +13,6 @@ async function move(settings: PtzZoom, globals: any) {
   const speed = globals.zoomSpeed;
   const direction = settings.direction ?? '';
   const url = `${apiBase}&${direction}&${speed}`;
-  console.log(`Move: ${url}`);
   await fetch(url);
 }
 
@@ -46,7 +45,7 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
 
     if(settings.direction) {
       ev.action.setTitle(`${settings.direction}`)
-      ev.action.setImage(`imgs/actions/search/${settings.direction}.png`)
+      ev.action.setImage(`imgs/actions/zoom/${settings.direction}.png`)
     }
   }
 
@@ -63,7 +62,7 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
 
     if(settings.direction) {
       ev.action.setTitle(`${settings.direction}`)
-      ev.action.setImage(`imgs/actions/search/${settings.direction}.png`)
+      ev.action.setImage(`imgs/actions/zoom/${settings.direction}.png`)
     }
   }
 
@@ -72,7 +71,7 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
 
     if(settings.direction) {
       ev.action.setTitle(`${settings.direction}`)
-      ev.action.setImage(`imgs/actions/search/${settings.direction}.png`)
+      ev.action.setImage(`imgs/actions/zoom/${settings.direction}.png`)
     }
 
     const globals = await streamDeck.settings.getGlobalSettings();

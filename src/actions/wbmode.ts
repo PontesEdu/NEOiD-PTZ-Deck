@@ -1,12 +1,10 @@
-import streamDeck, { action, KeyDownEvent, SingletonAction } from "@elgato/streamdeck";
-import { apiBasePtzPostImageValue } from "../utils/ptz-api-post-image-value";
+import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 
 interface WbModeProps {
   value: number;
   name: string;
 }
 
-// Array de modos WB
 const wbModes: WbModeProps[] = [
   { value: 0, name: "Auto" },
   { value: 4, name: "Indoor" },
@@ -16,25 +14,78 @@ const wbModes: WbModeProps[] = [
   { value: 2, name: "OnePush" },
 ];
 
-let currentWbIndex = 0; // Começa no Auto
+let currentWbIndex = 0; // valor temporário em runtime
 
 const getNextWbIndex = () => (currentWbIndex + 1) % wbModes.length;
 
 @action({ UUID: "com.neoid.ptzneoid.wbmode" })
-export class WbMode extends SingletonAction{
+export class WbMode extends SingletonAction {
 
+  // Carrega valor salvo ao aparecer na tela
+  override async onWillAppear(ev: WillAppearEvent) {
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP
+    
+    if(!cameraIP){
+      ev.action.setTitle(`Sem Camera`)
+      return;
+    }
+
+    const savedIndex = globals?.wbModeIndex;
+
+    if (typeof savedIndex === "number" && savedIndex >= 0 && savedIndex < wbModes.length) {
+      currentWbIndex = savedIndex;
+    } else {
+      currentWbIndex = 0; // fallback para "Auto"
+    }
+
+    // Atualiza o título no botão
+    ev.action.setTitle(wbModes[currentWbIndex].name);
+  }
+
+  // Quando usuário pressiona a tecla
   override async onKeyDown(ev: KeyDownEvent) {
-    /// Pega o próximo índice
     currentWbIndex = getNextWbIndex();
     const mode = wbModes[currentWbIndex];
 
-    // Chama a URL da câmera
-    const cameraIp = "192.168.100.88"; // substitua pelo IP da sua câmera
-    const url = `http://${cameraIp}/cgi-bin/ptzctrl.cgi?post_image_value&wbmode&${mode.value}`;
-
-    ev.action.setTitle( `${mode.name}: ${mode.value}`);
+    const globals = await streamDeck.settings.getGlobalSettings();
     
-    await fetch(url);
-      
+    const cameraIP = globals.cameraIP
+    
+    if(!cameraIP){
+      ev.action.setTitle(`Sem Camera`)
+      return;
+    }
+
+    // Envia comando para a câmera
+    const url = `http://${cameraIP}/cgi-bin/ptzctrl.cgi?post_image_value&wbmode&${mode.value}`;
+    const res = await fetch(url);
+
+    // Atualiza título
+    if(res.ok){
+      ev.action.setTitle(mode.name);
+      await streamDeck.settings.setGlobalSettings({
+        ...globals,
+        wbModeIndex: currentWbIndex,
+      });
+    }
+  }
+
+  // Caso configuração global mude em outro lugar
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent) {
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP
+    
+    if(!cameraIP){
+      ev.action.setTitle(`Sem Camera`)
+      return;
+    }
+
+    const savedIndex = globals.wbModeIndex;
+
+    if (typeof savedIndex === "number" && savedIndex >= 0 && savedIndex < wbModes.length) {
+      currentWbIndex = savedIndex;
+      ev.action.setTitle(wbModes[currentWbIndex].name);
+    }
   }
 }
