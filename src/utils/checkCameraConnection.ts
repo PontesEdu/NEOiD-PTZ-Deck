@@ -14,3 +14,4 @@ export async function checkCameraConnection(cameraIP: string, timeout = 5000): P
 
   return Promise.race([fetchPromise, timeoutPromise]);
 }
+

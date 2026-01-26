@@ -18,15 +18,22 @@ sdpi-select{
   margin-bottom: 20px;
 }
 
+.p-local{
+  font-size: 1rem;
+  padding-top: 20px;
+}
+
+.p-text {
+  margin-top: 0px;
+}
+
 h3{
   font-size: 1.1rem;
-  padding-top: 10px;
-  padding-bottom: 15px;
+  padding: 15px 0px;
 }
 
 p{
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   padding-bottom: 5px;
-  padding-top: 15px; 
   letter-spacing: 0.7px;
 }

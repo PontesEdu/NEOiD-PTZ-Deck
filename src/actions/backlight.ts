@@ -1,11 +1,14 @@
 import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { apiBasePtzPostImageValue } from "../utils/ptz-api-post-image-value";
+import { sendViscaUDP } from "../utils/send-visca-udp";
+import { APINeoid } from "../api/api-neoid";
+import { APITelycam } from "../api/api-telycam";
 
 @action({ UUID: "com.neoid.ptzneoid.backlight" })
 export class Backlight extends SingletonAction {
   private isBacklight = false;
 
-  //FN -> config Settings Globals 
+  // FN -> config Settings Globals 
   private async getGlobals() {
     return await streamDeck.settings.getGlobalSettings();
   }
@@ -25,13 +28,6 @@ export class Backlight extends SingletonAction {
     if (state !== undefined) {
       await action.setTitle(state ? "Backlight\nON" : "Backlight\nOFF");
     }
-  }
-
-  private async toggleBacklightAPI(cameraIP: string, enable: boolean) {
-    const apiBase = apiBasePtzPostImageValue(cameraIP);
-    
-    const urlSecondary = `${apiBase}&backlight&${enable ? 2 : 3}`;
-    await fetch(urlSecondary);
   }
 
   private async refreshState(ev: { action: any }) {
@@ -59,13 +55,28 @@ export class Backlight extends SingletonAction {
     }
 
     this.isBacklight = !this.isBacklight;
-    await this.toggleBacklightAPI(cameraIP, this.isBacklight);
+
+
+    if(globals.isTelycam){
+      const keyTelycam = globals.keyTelycam as number
+      const api = new APITelycam({IP: cameraIP, key: keyTelycam});
+      await api.toggleBacklight(this.isBacklight);
+      
+    } else{
+      const api = new APINeoid({IP: cameraIP});
+      await api.toggleBacklight(this.isBacklight);
+    }
+
     await this.updateTitle(ev.action, cameraIP, this.isBacklight);
 
     await streamDeck.settings.setGlobalSettings({
       ...globals,
       isBacklight: this.isBacklight,
     });
+
+    this.actions.forEach(async (action) => {
+      action.getSettings()
+    }) 
   }
 }
 

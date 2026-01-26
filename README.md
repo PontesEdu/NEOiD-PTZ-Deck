@@ -1,8 +1,4 @@
-# Plugin Stream Deck NEOiD PTZ Deck
-
-![Imgem do plugin no marktplace](./com.neoid.ptzneoid.sdPlugin/imgs/plugin/neoid-marktplace.png)
-
-https://marketplace.elgato.com/product/neoid-ptz-deck-d260b006-c00d-44ae-91ec-85c0367c37df![Texto 
+# Stream Deck PTZ Control Plugin
 
 Este é um plugin para o **Elgato Stream Deck**, que permite criar atalhos e automações personalizadas através de botões físicos.  
 Plugins do Stream Deck adicionam novas funções aos botões, permitindo controlar softwares, dispositivos ou serviços externos.
@@ -46,7 +42,8 @@ Com ele, você pode registrar várias câmeras e controlá-las diretamente pelo 
 - ermite ajustar a velocidade de Pan/Tilt, Zoom e Focus.
 - Cada clique no botão alterna entre os níveis de velocidade: slow → slowest → normal → fast → fastest.
 - Ao atingir o último nível (fastest), o ciclo reinicia no slow (loop automático).
-- Também existe a ação Default Settings, que retorna todos os valores para o padrão inicial com apenas um clique.
+
+Também existe a ação Default Settings, que retorna todos os valores para o padrão inicial com apenas um clique.
 ---
 
 ### Preset
@@ -54,7 +51,7 @@ Com ele, você pode registrar várias câmeras e controlá-las diretamente pelo 
 - Pressionar o botão por **2 segundos** salva a posição.  
 - Um clique chama o Preset salvo.  
 - Uma imagem de referência é adicionada ao botão.  
-- Até **32 posições diferentes** podem ser registradas.  
+- Até **96 posições diferentes** podem ser registradas.  
 - Presets são salvos por câmera selecionada.
 
 ---
