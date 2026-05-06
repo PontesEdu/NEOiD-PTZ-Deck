@@ -62,6 +62,14 @@
 			"UUID": "com.neoid.ptzneoid.ptz-focus",
 			"Name": "Focus",
 			"UserTitleEnabled": false,
+			"Controllers": ["Keypad"],
+			"Encoder": {
+        "layout": "$A1",
+				"Icon": "imgs/plugin/logo-neoid",
+				"TriggerDescription": {
+					"Rotate": "Incremental adjustment"
+				}
+      },
 			"Tooltip": "Controls the functions Focus",
 			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
@@ -76,6 +84,7 @@
 			"UUID": "com.neoid.ptzneoid.ptz-tracking",
 			"Name": "Tracking",
 			"UserTitleEnabled": false,
+			"Controllers": ["Keypad"],
 			"Tooltip": "Controls the functions Tracking",
 			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
@@ -125,6 +134,72 @@
 				}
 			],
 			"PropertyInspectorPath": "ui/osd.html"
+		},
+		{
+			"UUID": "com.neoid.ptzneoid.focus-dial",
+			"Name": "Focus",
+			"UserTitleEnabled": false,
+			"Controllers": ["Encoder"],
+			"Encoder": {
+        "layout": "$A1",
+				"Icon": "imgs/plugin/logo-neoid",
+				"TriggerDescription": {
+					"Rotate": "Adjust focus"
+				}
+      },
+			"Tooltip": "Controls the functions Focus",
+			"Icon": "imgs/plugin/logo-neoid@2x",
+			"States": [
+				{
+					"Image": "imgs/plugin/logo-neoid@2x",
+					"FontSize": 13
+				}
+			],
+			"PropertyInspectorPath": "ui/dials/focus-dial.html"
+		},
+		{
+			"UUID": "com.neoid.ptzneoid.zoom-dial",
+			"Name": "Zoom",
+			"UserTitleEnabled": false,
+			"Controllers": ["Encoder"],
+			"Encoder": {
+				"layout": "$A1",
+				"Icon": "imgs/plugin/logo-neoid",
+				"TriggerDescription": {
+					"Rotate": "Adjust Zoom"
+				}
+      },
+			"Tooltip": "Controls the functions Zoom",
+			"Icon": "imgs/plugin/logo-neoid@2x",
+			"States": [
+				{
+					"Image": "imgs/plugin/logo-neoid@2x",
+					"FontSize": 13
+				}
+			],
+			"PropertyInspectorPath": "ui/dials/zoom-dial.html"
+		},
+		{
+			"UUID": "com.neoid.ptzneoid.tracking-dial",
+			"Name": "Tracking",
+			"UserTitleEnabled": false,
+			"Controllers": ["Encoder"],
+			"Encoder": {
+				"layout": "$A1",
+				"Icon": "imgs/plugin/logo-neoid",
+				"TriggerDescription": {
+					"Rotate": "Adjust tracking"
+				}
+      },
+			"Tooltip": "Controls the functions tracking",
+			"Icon": "imgs/plugin/logo-neoid@2x",
+			"States": [
+				{
+					"Image": "imgs/plugin/logo-neoid@2x",
+					"FontSize": 13
+				}
+			],
+			"PropertyInspectorPath": "ui/dials/tracking-dial.html"
 		}
 	],
 	"Category": "NEOiD PTZ Deck",

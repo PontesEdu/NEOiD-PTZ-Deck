@@ -10,8 +10,7 @@ type PtzPresetProps = {
 
 @action({ UUID: "com.neoid.ptzneoid.ptz-preset" })
 export class PTZPreset extends SingletonAction<PtzPresetProps> {
-  // private presetImages: PresetImage[] = [];
-  private pressTimer?: NodeJS.Timeout;
+  private pressTimer?: ReturnType<typeof setTimeout>;
   private longPress = false;
 
   override async onWillAppear(ev: WillAppearEvent<PtzPresetProps>) {

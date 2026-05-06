@@ -1,4 +1,4 @@
-import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, PropertyInspectorDidAppearEvent, PropertyInspectorDidDisappearEvent, SingletonAction, TitleParametersDidChangeEvent, WillAppearEvent } from "@elgato/streamdeck";
+import streamDeck, { action, DialDownEvent, DialRotateEvent, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, PropertyInspectorDidAppearEvent, PropertyInspectorDidDisappearEvent, SingletonAction, TitleParametersDidChangeEvent, WillAppearEvent } from "@elgato/streamdeck";
 import { checkCameraConnection } from "../utils/checkCameraConnection";
 import { PTZ_DIRECTIONS, PTZDirection, SpeedType } from "../api/api-neoid";
 import { APINeoid } from "../api/api-neoid";
@@ -19,6 +19,29 @@ export type PtzSettings = {
 // Ações
 @action({ UUID: "com.neoid.ptzneoid.ptz-controls" })
 export class PTZControls extends SingletonAction<PtzSettings> {
+
+  override async onDialRotate(ev: DialRotateEvent): Promise<void> {
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP as string;
+    if (!cameraIP) {
+      await ev.action.setTitle("No camera IP");
+      return;
+    }
+
+    // ticks > 0 = girou pra frente | ticks < 0 = girou pra trás
+    const direction =  "focusin";
+    await ev.action.setTitle(`Focus ${direction}`);
+
+    const speed = globals.focusMode as SpeedType ?? "normal";
+
+    if (globals.isTelycam) {
+      const api = new APITelycam({ IP: cameraIP, key: globals.keyTelycam as number });
+      api.MoveFocusTelycam(direction, speed);
+    } else {
+      const api = new APINeoid({ IP: cameraIP });
+      api.MoveZoomAndFocus(direction, speed);
+    }
+  }
 
   override async onWillAppear(ev: WillAppearEvent<PtzSettings>) {
     const settings = ev.payload.settings

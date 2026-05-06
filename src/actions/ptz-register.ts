@@ -8,6 +8,8 @@ import { Backlight } from "./backlight";
 import { Osd } from "./osd";
 import { checkCameraConnection } from "../utils/checkCameraConnection";
 import { LoginTelycam } from "../utils/login-telycam";
+import { FocusDial } from "./dials/focus-dials";
+import { ZoomDial } from './dials/zoom-dials';
 
 
 
@@ -22,9 +24,11 @@ export class PTZRegister extends SingletonAction<any> {
   ptzZoom: PTZZoom
   ptzBacklight: Backlight
   ptzOSD: Osd
+  focusDial: FocusDial
+  zoomDial: ZoomDial
 
 
-  constructor(ptzControls: PTZControls, ptzTracking: PTZTracking, preset: PTZPreset, ptzFocus: PTZFocus, ptzZoom: PTZZoom, backlight: Backlight, osd: Osd) {
+  constructor(ptzControls: PTZControls, ptzTracking: PTZTracking, preset: PTZPreset, ptzFocus: PTZFocus, ptzZoom: PTZZoom, backlight: Backlight, osd: Osd, focusDial: FocusDial, zoomDial: ZoomDial) {
 		super();
 		this.ptzControls = ptzControls;
 		this.ptzTracking = ptzTracking;
@@ -33,6 +37,8 @@ export class PTZRegister extends SingletonAction<any> {
     this.ptzZoom = ptzZoom;
     this.ptzBacklight = backlight;
     this.ptzOSD = osd;
+    this.focusDial = focusDial;
+    this.zoomDial = zoomDial;
 	}
 
   override async onPropertyInspectorDidDisappear(ev: PropertyInspectorDidDisappearEvent) {
@@ -284,6 +290,7 @@ export class PTZRegister extends SingletonAction<any> {
             ev.setTitle(modeInfo.name);
             ev.setImage(tracking.trackActive ? "imgs/actions/tracking/tracking-on" : "imgs/actions/tracking/tracking-off");
           });
+          
         } 
       }
     }
@@ -317,6 +324,14 @@ export class PTZRegister extends SingletonAction<any> {
     });
 
     this.ptzOSD.actions.forEach(async (actionInstance) => {
+      actionInstance.getSettings()
+    });
+
+    this.focusDial.actions.forEach(async (actionInstance) => {
+      actionInstance.getSettings()
+    });
+
+    this.zoomDial.actions.forEach(async (actionInstance) => {
       actionInstance.getSettings()
     });
   

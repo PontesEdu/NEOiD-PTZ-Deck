@@ -1,4 +1,4 @@
-import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
+import streamDeck, { action, DialDownEvent, DialRotateEvent, DialUpEvent, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { APITelycam } from "../api/api-telycam";
 import { APINeoid } from "../api/api-neoid";
 
@@ -19,6 +19,11 @@ export class PTZTracking extends SingletonAction {
     { value: "1", name: "Head\nFraming" },
     { value: "2", name: "Body\nFraming" },
   ];
+
+
+
+
+
 
   override async onWillAppear(ev: WillAppearEvent) {
     const globals = await streamDeck.settings.getGlobalSettings();
@@ -160,7 +165,7 @@ export class PTZTracking extends SingletonAction {
 
   // ----------------------------
   // lógica de toggle (longpress)
-  private async toggleTracking(ev: any) {
+  async toggleTracking(ev: any) {
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP as string;
 

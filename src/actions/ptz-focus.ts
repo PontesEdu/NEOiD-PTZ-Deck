@@ -1,4 +1,4 @@
-import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
+import streamDeck, { action, DialDownEvent, DialRotateEvent, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, PropertyInspectorDidAppearEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { apiBaseCMD } from "../utils/ptz-api-base";
 import { APITelycam } from "../api/api-telycam";
 import { APINeoid, SpeedType } from "../api/api-neoid";
@@ -15,7 +15,8 @@ export type PtzFocus = {
 @action({ UUID: "com.neoid.ptzneoid.ptz-focus" })
 export class PTZFocus extends SingletonAction<PtzFocus> {
 
-  override async onWillAppear(ev: WillAppearEvent<PtzFocus>) {
+  override async onWillAppear(ev: WillAppearEvent) {
+
     const settings = ev.payload.settings
 
     const globals = await streamDeck.settings.getGlobalSettings();
@@ -112,11 +113,9 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
       ev.action.setImage(`imgs/actions/focus/auto.png`)
     }
 
-    // const apiBase = apiBaseCMD(globals.cameraIP)
-
     const speed = globals.focusMode as SpeedType ?? "normal"; 
 
-    if(globals.isTelycam){
+    if (globals.isTelycam) {
       const keyTelycam = globals.keyTelycam as number
       const api = new APITelycam({IP: cameraIP, key: keyTelycam});
       api.MoveFocusTelycam(direction, speed)
