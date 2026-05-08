@@ -1,4 +1,4 @@
-export type SpeedType = "slowest" | "slow" | "normal" | "fast" | "fastest";
+import type { SpeedType } from "./api/api-neoid";
 
 export type GlobalSettings = {
   cameraIP: string | false;
