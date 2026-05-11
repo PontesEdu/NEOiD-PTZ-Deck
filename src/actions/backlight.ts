@@ -1,7 +1,8 @@
 import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
+import { APINeoid } from "../api/api-neoid";
+import { APITelycam } from "../api/api-telycam";
 import type { GlobalSettings } from "../types";
 import { noCameraGuard } from "../utils/no-camera-guard";
-import { resolveCamera } from "../utils/camera-api";
 
 @action({ UUID: "com.neoid.ptzneoid.backlight" })
 export class Backlight extends SingletonAction {
@@ -42,11 +43,19 @@ export class Backlight extends SingletonAction {
     const globals = await this.getGlobals();
 
     if (await noCameraGuard(ev.action, globals)) return;
-    const ctx = resolveCamera(globals);
-    if (!ctx) return;
+    const cameraIP = globals.cameraIP as string;
 
     this.isBacklight = !this.isBacklight;
-    await ctx.api.toggleBacklight(this.isBacklight);
+
+
+    if(globals.isTelycam){
+      const api = new APITelycam({IP: cameraIP, key: globals.keyTelycam});
+      await api.toggleBacklight(this.isBacklight);
+
+    } else{
+      const api = new APINeoid({IP: cameraIP});
+      await api.toggleBacklight(this.isBacklight);
+    }
 
     await this.updateTitle(ev.action, this.isBacklight);
 

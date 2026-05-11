@@ -1,5 +1,4 @@
 import streamDeck from "@elgato/streamdeck";
-import { ActionRegistry } from "./utils/action-registry";
 
 import { PTZControls } from "./actions/ptz-controls";
 import { PTZZoom } from "./actions/ptz-zoom";
@@ -13,39 +12,24 @@ import { Backlight } from "./actions/backlight";
 import { FocusDial } from "./actions/dials/focus-dials";
 import { ZoomDial } from "./actions/dials/zoom-dials";
 
+// We can enable "trace" logging so that all messages between the Stream Deck, and the plugin are recorded. When storing sensitive information
 streamDeck.logger.setLevel("trace");
 
-const ptzControls = new PTZControls();
-const ptzTracking = new PTZTracking();
-const ptzPreset = new PTZPreset();
-const ptzFocus = new PTZFocus();
-const ptzZoom = new PTZZoom();
-const backlight = new Backlight();
-const osd = new Osd();
-const focusDial = new FocusDial();
-const zoomDial = new ZoomDial();
 
-streamDeck.actions.registerAction(ptzControls);
-streamDeck.actions.registerAction(ptzZoom);
-streamDeck.actions.registerAction(ptzFocus);
-streamDeck.actions.registerAction(ptzTracking);
+// Register action.
+streamDeck.actions.registerAction(new PTZControls());
+streamDeck.actions.registerAction(new PTZZoom());
+streamDeck.actions.registerAction(new PTZFocus());
+streamDeck.actions.registerAction(new PTZTracking());
 streamDeck.actions.registerAction(new PTZSpeed());
-streamDeck.actions.registerAction(ptzPreset);
-streamDeck.actions.registerAction(osd);
-streamDeck.actions.registerAction(backlight);
-streamDeck.actions.registerAction(focusDial);
-streamDeck.actions.registerAction(zoomDial);
+streamDeck.actions.registerAction(new PTZPreset());
+streamDeck.actions.registerAction(new Osd());
+streamDeck.actions.registerAction(new Backlight());
+streamDeck.actions.registerAction(new PTZRegister(new PTZControls, new PTZTracking, new PTZPreset, new PTZFocus, new PTZZoom, new Backlight, new Osd, new FocusDial, new ZoomDial));
 
-ActionRegistry.register(ptzControls);
-ActionRegistry.register(ptzTracking);
-ActionRegistry.register(ptzPreset);
-ActionRegistry.register(ptzFocus);
-ActionRegistry.register(ptzZoom);
-ActionRegistry.register(backlight);
-ActionRegistry.register(osd);
-ActionRegistry.register(focusDial);
-ActionRegistry.register(zoomDial);
-
-streamDeck.actions.registerAction(new PTZRegister(ptzTracking));
-
+// DIALS
+streamDeck.actions.registerAction(new FocusDial());
+streamDeck.actions.registerAction(new ZoomDial());
 streamDeck.connect();
+
+
