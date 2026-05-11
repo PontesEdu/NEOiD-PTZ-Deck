@@ -1,4 +1,4 @@
-import streamDeck, { action, DialDownEvent, DialRotateEvent, DidReceiveSettingsEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
+import streamDeck, { action, DialDownEvent, DialRotateEvent, DidReceiveSettingsEvent, SingletonAction, WillAppearEvent, WillDisappearEvent } from "@elgato/streamdeck";
 import { APITelycam } from "../../api/api-telycam";
 import { APINeoid } from "../../api/api-neoid";
 import type { GlobalSettings } from "../../types";
@@ -71,5 +71,18 @@ export class ZoomDial extends SingletonAction {
 
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent) {
     await this.updateButton(ev);
+  }
+
+  override async onWillDisappear(_ev: WillDisappearEvent): Promise<void> {
+    if (!this.stopzoomTimer) return;
+    clearTimeout(this.stopzoomTimer);
+    this.stopzoomTimer = null;
+    const globals = await streamDeck.settings.getGlobalSettings<GlobalSettings>();
+    if (!globals.cameraIP) return;
+    if (globals.isTelycam) {
+      new APITelycam({ IP: globals.cameraIP as string, key: globals.keyTelycam }).StopZoomTelycam();
+    } else {
+      new APINeoid({ IP: globals.cameraIP as string }).StopZoomAndFocus("zoom");
+    }
   }
 }
