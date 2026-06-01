@@ -3,7 +3,7 @@
 
   const LOCALES = {
     en: {
-      "select.description": "Register a PTZ camera by entering its IP address. Assign an optional name. If the camera is offline, <strong>Not connected</strong> is shown. Always select the target camera here before using other actions.",
+      "select.description": "Register a PTZ camera by entering its IP address. Assign an optional name. If the camera is offline, <strong>No camera</strong> is shown. Always select the target camera here before using other actions.",
       "select.telycam.description": "When <strong>NEOiD By Telycam</strong> is enabled, enter User and Password credentials. Connectivity is verified automatically.",
       "select.telycam.note": "⚠️ All Telycam actions require this option to be enabled here.",
 
@@ -17,7 +17,7 @@
       "focus.description": "Hold to adjust focus continuously; release to stop. <strong>Auto Focus</strong> triggers a one-shot autofocus.",
 
       "tracking.description": "Short press: cycle modes. Long press (≈1 s): activate selected mode. Short press while active: deactivate.<br><br>NEOiD modes: Presenter, Zone, Auto Frame.<br>Telycam modes: Tracking, Head Framing, Body Framing.",
-      "tracking.telycam.note": "⚠️ Telycam tracking modes are currently in BETA.",
+      "tracking.webui.note": "⚠️ Zone, Auto Frame, Head Framing and Body Framing modes require prior setup in the camera's web interface to work correctly.",
 
       "backlight.description": "Toggles backlight compensation on/off. Use when a bright background causes the subject to appear dark.",
 
@@ -31,13 +31,11 @@
       "zoomDial.description": "Rotate the dial to adjust zoom.",
 
       "tally.description": "<strong>Short press:</strong> RED (on air)<br><strong>Long press (900 ms):</strong> GREEN (preview)<br>Pressing again in the same state turns tally OFF.",
-      "tally.ipDefault.description": "This button will be locked to this specific camera, regardless of the camera selected by <em>Select Camera PTZ</em>.",
-
-      "freeze.description": "Freezes the camera video output. Press to toggle between LIVE and FREEZE."
+      "tally.ipDefault.description": "This button will be locked to this specific camera, regardless of the camera selected by <em>Select Camera</em>."
     },
 
     pt_BR: {
-      "select.description": "Cadastre uma câmera PTZ informando o endereço IP. Atribua um nome opcional. Se offline, <strong>Not connected</strong> é exibido automaticamente. Selecione sempre a câmera desejada aqui antes de usar outras ações.",
+      "select.description": "Cadastre uma câmera PTZ informando o endereço IP. Atribua um nome opcional. Se offline, <strong>No camera</strong> é exibido automaticamente. Selecione sempre a câmera desejada aqui antes de usar outras ações.",
       "select.telycam.description": "Com <strong>NEOiD By Telycam</strong> ativado, informe Usuário e Senha. A conectividade é verificada automaticamente.",
       "select.telycam.note": "⚠️ Todas as ações Telycam exigem que esta opção esteja ativada aqui.",
 
@@ -51,7 +49,7 @@
       "focus.description": "Segure para ajustar o foco continuamente; solte para parar. <strong>Auto Focus</strong> aciona o foco automático instantaneamente.",
 
       "tracking.description": "Toque rápido: alterna modos. Pressão longa (≈1 s): ativa o modo selecionado. Toque rápido com ativo: desativa.<br><br>Modos NEOiD: Presenter, Zone, Auto Frame.<br>Modos Telycam: Tracking, Head Framing, Body Framing.",
-      "tracking.telycam.note": "⚠️ Os modos de rastreamento Telycam estão em BETA.",
+      "tracking.webui.note": "⚠️ Os modos Zone, Auto Frame, Head Framing e Body Framing precisam ser configurados previamente na interface web da câmera para funcionar corretamente.",
 
       "backlight.description": "Ativa ou desativa a compensação de retroiluminação. Use quando o fundo claro escurece o objeto em cena.",
 
@@ -65,9 +63,7 @@
       "zoomDial.description": "Gire o dial para ajustar o zoom.",
 
       "tally.description": "<strong>Press curto:</strong> RED (ao vivo)<br><strong>Press longo (900 ms):</strong> GREEN (preview)<br>Pressionar novamente no mesmo estado desliga o tally (OFF).",
-      "tally.ipDefault.description": "Este botão ficará fixo nesta câmera, independente da câmera selecionada pelo <em>Select Camera PTZ</em>.",
-
-      "freeze.description": "Congela a saída de vídeo da câmera. Pressione para alternar entre LIVE e FREEZE."
+      "tally.ipDefault.description": "Este botão ficará fixo nesta câmera, independente da câmera selecionada pelo <em>Select Camera</em>."
     }
   };
 
