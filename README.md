@@ -4,6 +4,24 @@ A Stream Deck plugin for controlling PTZ cameras over a local network — no joy
 
 ---
 
+## Install
+
+Download the latest build and double-click it — the Stream Deck app installs the plugin:
+
+| Version | Download |
+|---|---|
+| **v2.1.0** (latest) | [`dist/v2.1.0/com.neoid.ptzneoid.streamDeckPlugin`](dist/v2.1.0/com.neoid.ptzneoid.streamDeckPlugin) |
+| v2.0.0 | [`dist/v2/com.neoid.ptzneoid.streamDeckPlugin`](dist/v2/com.neoid.ptzneoid.streamDeckPlugin) |
+
+Every version is also attached to the [Releases](../../releases) page.
+
+> **Note on the source:** the camera protocol layer (`src/api/`) is kept
+> private, so this repository does not compile on its own — see
+> [`src/api/README.md`](src/api/README.md). The layer is included in the
+> packaged builds above, which are complete and fully functional.
+
+---
+
 ## Supported Cameras
 
 | Brand | Protocol | Notes |
@@ -43,7 +61,7 @@ A Stream Deck plugin for controlling PTZ cameras over a local network — no joy
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) v20 or later
-- [Elgato Stream Deck app](https://www.elgato.com/downloads) v6.5 or later
+- [Elgato Stream Deck app](https://www.elgato.com/downloads) v6.9 or later
 - Stream Deck CLI:
 
 ```bash
@@ -125,7 +143,19 @@ Produces `com.neoid.ptzneoid.streamDeckPlugin` — double-click to install in th
 
 ## Requirements
 
-- Stream Deck app v6.5+
+- Stream Deck app v6.9+
 - macOS 12+ or Windows 10+
 - Node.js 20 (bundled with the plugin at runtime)
 - PTZ camera accessible on the local network
+
+---
+
+## License
+
+Copyright (c) 2025-2026 Eduardo Pontes da Silva. All rights reserved.
+
+Published for portfolio purposes: the code may be read, but not copied,
+modified or redistributed. See [LICENSE](LICENSE).
+
+NEOiD, Telycam, Elgato and Stream Deck are trademarks of their respective
+owners. This project is not affiliated with Elgato.
