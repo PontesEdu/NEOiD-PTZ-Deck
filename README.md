@@ -1,5 +1,7 @@
 # NEOiD PTZ Deck
 
+![NEOiD PTZ Deck — one new controller for your PTZ camera](assets/banner.png)
+
 A Stream Deck plugin for controlling PTZ cameras over a local network — no joystick or dedicated software required.
 
 ---
